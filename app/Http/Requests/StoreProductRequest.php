@@ -25,8 +25,9 @@ class StoreProductRequest extends FormRequest
             'name'=>['string','required'],
             'image'=>'required',
             'description'=>'required',
-            'category'=>'required',
             'quantity'=>'integer',
+            'category_id'=>'required|integer',
+            'brand_id'=>'sometimes|integer',
             'price'=>['required','numeric'],
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,9 +13,15 @@ class AuthController extends Controller
 {
     public function register(UserRegisterRequest $request)
     {
-        $userDetails = $request->only(['name','email','password',
+        $userDetails = $request->only(['name','email','password','image','phone_number',
                                         'first_name','last_name','role']);
+        $userAddress = $request->except(['name','email','password','image','phone_number',
+                                        'first_name','last_name','role']);
+        $userDetails['image'] = asset('/storage/'.$request->file('image')->store('images','public'));
         $user = User::create($userDetails);
+        $userAddress['user_id'] = $user->id;
+        $userAddress['state'] = 'hhh';
+        Address::create($userAddress);
         $token = $user->createToken('latyusDev')->plainTextToken;
         return response([
             'user'=>$user,
@@ -46,4 +53,6 @@ class AuthController extends Controller
             'message'=>'You are logged out'
         ]);    
     }
+
+   
 }

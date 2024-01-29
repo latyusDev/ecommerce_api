@@ -15,27 +15,21 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Category::with('products')->get();
+        return Product::all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(StoreProductRequest $request)
     {
-        $categoryDetail = $request->safe()->only('category');
-        $categoryDetail['user_id'] =  $request->user()->id ;
-        $productDetail = $request->safe()->except('category');
+        $productDetail = $request->all();
+        // return $productDetail;
+        // $productDetail['image'] = $request->file('image') ;
         $productDetail['image'] = asset('/storage/'.$request->file('image')
                                     ->store('images','public'));
-        $category = Category::firstOrNew($categoryDetail);
-
-        if($category->id){
-            $product = $category->products()->create($productDetail);
-        }else{
-            $category->save();
-            $product = $category->products()->create($productDetail);
-        }
+        $product = Product::create($productDetail);
         return $product;
     }
 

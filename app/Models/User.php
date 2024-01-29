@@ -18,12 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'first_name',
-        'last_name',
-        'role'
+        'email','password','image',
+        'first_name','phone_number',
+        'last_name','role','password_confirmation'
     ];
 
     /**
@@ -49,5 +46,9 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+    public function address()
+    {
+        return $this->hasOne(Address::class);
     }
 }

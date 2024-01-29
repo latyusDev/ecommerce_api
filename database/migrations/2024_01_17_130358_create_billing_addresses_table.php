@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('billing_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('image');
+            $table->foreignId('user_id')->constrained()
+                        ->onDelete('cascade');
+            $table->string('state');
+            $table->string('local_government');
+            $table->longText('street');
+            $table->integer('zip_code');
             $table->bigInteger('phone_number');
-            $table->string('role')->default('user');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('billing_addresses');
     }
 };
