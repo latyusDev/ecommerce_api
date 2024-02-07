@@ -12,7 +12,8 @@ class Address extends Model
     'state',
     'street',
     'local_government',
-    'user_id','zip_code','phone_number'
+    'user_id','zip_code',
+    'phone_number'
     ];
 
     public function address()

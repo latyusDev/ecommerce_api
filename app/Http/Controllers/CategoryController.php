@@ -17,16 +17,12 @@ class CategoryController extends Controller
         return Category::with('brands.products')->get();
     }
     
-    // $data = Category::with(['brands'=>function($query){
-        //      $query->with(['products'=>function($query){
-            //          $query->take(15)->get();
-            //     }])->take(5);
-            // }])->latest()->take(5)->get();
+    
     public function home()
     {   
         $data = Category::with('brands.products')->whereIn('name',
         ['accessory','phone','laptop'])->get();
-                
+                // dd($data);
         return $data;
     }
     

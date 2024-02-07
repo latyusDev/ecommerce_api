@@ -44,6 +44,7 @@ Route::post('/register',[AuthController::class,'register']);
 
 
 Route::apiResource('/category',CategoryController::class);
+Route::get('products/random',[ProductController::class,'randomProduct']);
 Route::apiResource('/products',ProductController::class);
 Route::apiResource('/brands',BrandController::class);
 Route::get('/home',[CategoryController::class,'home']);

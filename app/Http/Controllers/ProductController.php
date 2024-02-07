@@ -18,6 +18,11 @@ class ProductController extends Controller
         return Product::all();
     }
 
+    public function randomProduct()
+    {
+        $products = Product::inRandomOrder()->limit(10)->get();
+        return $products;
+    }
     /**
      * Store a newly created resource in storage.
      */
