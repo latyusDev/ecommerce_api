@@ -42,7 +42,8 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
 
 
-
+Route::get('/categoryLatestProducts',
+[CategoryController::class,'categoryLatestProducts']);
 Route::apiResource('/category',CategoryController::class);
 Route::get('products/random',[ProductController::class,'randomProduct']);
 Route::apiResource('/products',ProductController::class);

@@ -20,6 +20,7 @@ class ProductController extends Controller
 
     public function randomProduct()
     {
+        // $products = Product::limit(10)->get();
         $products = Product::inRandomOrder()->limit(10)->get();
         return $products;
     }
@@ -30,8 +31,6 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $productDetail = $request->all();
-        // return $productDetail;
-        // $productDetail['image'] = $request->file('image') ;
         $productDetail['image'] = asset('/storage/'.$request->file('image')
                                     ->store('images','public'));
         $product = Product::create($productDetail);

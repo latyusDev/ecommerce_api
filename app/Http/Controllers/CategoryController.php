@@ -22,6 +22,14 @@ class CategoryController extends Controller
     {   
         $data = Category::with('brands.products')->whereIn('name',
         ['accessory','phone','laptop'])->get();
+        return $data;
+    }
+
+    public function categoryLatestProducts()
+    {   
+        $data = Category::with(['products'=>function($query){
+                $query->latest()->get();
+        }])->take(5)->get();
                 // dd($data);
         return $data;
     }
