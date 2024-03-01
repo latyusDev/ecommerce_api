@@ -12,7 +12,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() 
+    public function index()
     {
         return Category::with('brands.products')->get();
     }
@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function home()
     {   
         $data = Category::with('brands.products')->whereIn('name',
-        ['accessory','phone','laptop'])->get();
+        ['televisions','irons','Phones','laptops'])->get();
         return $data;
     }
 
@@ -30,43 +30,28 @@ class CategoryController extends Controller
         $data = Category::with(['products'=>function($query){
                 $query->latest()->get();
         }])->take(5)->get();
-                // dd($data);
         return $data;
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(StorecategoryRequest $request)
-    {
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorecategoryRequest $request)
+    public function store(Request $request)
     {
         $category = category::create([
-             'name'=>$request->category,
+             'name'=>$request->name,
              'user_id'=>$request->user_id
          ]);
-    
-         return response(['category'=>$category],201);
+        
+        return response(['category'=>$category],201);
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(category $category)
+    public function show(string $id)
     {
         //
     }
@@ -74,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatecategoryRequest $request, category $category)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -82,7 +67,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(string $id)
     {
         //
     }

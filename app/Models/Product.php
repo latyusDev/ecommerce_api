@@ -15,15 +15,20 @@ class Product extends Model
     ];
 
 
+    public function scopeFilter($query,$productName)
+    {
+        return $query->whereName('like',"%".$productName."%");
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // public function product()
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
 
     public function brand()
     {

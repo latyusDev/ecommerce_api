@@ -18,13 +18,13 @@ class AuthController extends Controller
         $userAddress = $request->except(['name','email','password','image','phone_number',
                                         'first_name','last_name','role']);
         $userDetails['image'] = asset('/storage/'.$request->file('image')->store('images','public'));
-        $user = User::create($userDetails);
+        $user = User::with('address')->create($userDetails);
         $userAddress['user_id'] = $user->id;
-        $userAddress['state'] = 'hhh';
         Address::create($userAddress);
         $token = $user->createToken('latyusDev')->plainTextToken;
+        $userWithAddress = User::with('address')->whereEmail($user->email)->first();
         return response([
-            'user'=>$user,
+            'user'=>$userWithAddress,
             'token'=>$token
         ]);
     }
@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request)
     {
         $userDetail = $request->only(['email','password']);
-        $user = User::whereEmail($userDetail['email'])->first();
+        $user = User::with('address')->whereEmail($userDetail['email'])->first();
         if(!$user || Hash::check($user->password,$userDetail['password']))
         {
             return response([
