@@ -22,10 +22,10 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'=>['string','required'],
-            'last_name'=>['string','required'],
+            'first_name'=>['required','string'],
+            'last_name'=>['required','string'],
             'email'=>['required','unique:users'],
-            'password'=>['string','required','confirmed'],
+            'password'=>['required','string','confirmed'],
             'image'=>'required',
             'state'=>'required',
             'street'=>'required',

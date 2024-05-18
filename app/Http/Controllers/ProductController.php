@@ -54,14 +54,12 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, $id)
+    public function update( Product $product, Request $request)
     {
-
-        $product = Product::find($id);
         $product->update($request->all());
         return $product;
     }
-
+        
     /**
      * Remove the specified resource from storage.
      */
@@ -71,10 +69,28 @@ class ProductController extends Controller
          return ['message'=>'product deleted'];
     }
 
-    public function checkout(Request $request)
-    {       
-            // $products = $request->input('payload');
-            $products = $request->all();
+    // public function checkout(Request $request)
+    // {       
+    //         // $products = $request->input('payload');
+    //         $cartItems = $request->all();
+
+    //         $order = new Order();
+    //         $order->status = 'pending';
+    //         $order->total_price = 3000;
+    //         $order->session_id = 'fkehnflkwwkl';
+    //         $order->user_id = 1;
+    //         $order->payment_status = 'pending';
+    //         $order->save();
+    //         foreach($cartItems as $cartItem){
+    //             OrderItem::create([
+    //              'order_id'=>$order->id,
+    //              'name'=>$cartItem->name,
+    //              'price'=>$cartItem->,
+    //              'quantity'=>$cartItem->quantity,
+    //              'image'=>$cartItem->image,
+    //              'description'=>$cartItem->description
+    //             ])
+    //         }
             // dd($products);
             // // \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
             // $line_items = [];
@@ -128,71 +144,71 @@ class ProductController extends Controller
             //     ],
             // ];
 
-            $order = Order::create([
-                'user_id'=>1,
-                'session_id'=>'yryryyhh',
-                'total_price'=>5436.5
-            ]);
-            // $orderItems = [];
-             foreach($products as $key => $product){
-              $p =  $order->orderItems()->create($product);
+    //         $order = Order::create([
+    //             'user_id'=>1,
+    //             'session_id'=>'yryryyhh',
+    //             'total_price'=>5436.5
+    //         ]);
+    //         // $orderItems = [];
+    //          foreach($products as $key => $product){
+    //           $p =  $order->orderItems()->create($product);
 
-                //  $product->order_id = $order->id;
-                //  OrderItem::create($product);
-             }
-            // return     $orderItems;
-            //  dd($orderItems[0]);
-            $products['order_id'] = $order->id;
-            $get = [
-                [
+    //             //  $product->order_id = $order->id;
+    //             //  OrderItem::create($product);
+    //          }
+    //         // return     $orderItems;
+    //         //  dd($orderItems[0]);
+    //         $products['order_id'] = $order->id;
+    //         $get = [
+    //             [
                     
-                        "name"=> "ete",
-                        "count"=> 2,
-                        "quantity"=> 3,
-                        "image"=> "fffj",
-                        "price"=> 3543.3,
-                        "description"=> "jfjfj",
+    //                     "name"=> "ete",
+    //                     "count"=> 2,
+    //                     "quantity"=> 3,
+    //                     "image"=> "fffj",
+    //                     "price"=> 3543.3,
+    //                     "description"=> "jfjfj",
                        
-                ],
-                [
+    //             ],
+    //             [
                     
-                    "name"=> "ete",
-                    "count"=> 2,
-                    "quantity"=> 3,
-                    "image"=> "fffj",
-                    "price"=> 3543.3,
-                    "description"=> "jfjfj",
+    //                 "name"=> "ete",
+    //                 "count"=> 2,
+    //                 "quantity"=> 3,
+    //                 "image"=> "fffj",
+    //                 "price"=> 3543.3,
+    //                 "description"=> "jfjfj",
                    
-            ]
-                ];
-              $p =  $order->orderItems()->createMany($products);
-            //  print_r($orderItems);
-            // $items = OrderItem::createMany($get);
-            return $p;
-    }
+    //         ]
+    //             ];
+    //           $p =  $order->orderItems()->createMany($products);
+    //         //  print_r($orderItems);
+    //         // $items = OrderItem::createMany($get);
+    //         return $p;
+    // }
 
-    public function success(Request $request)
-    {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $sessionId = $request->get('session_id');
-        $session = \Stripe\Checkout\Session::retrieve($sessionId);
-        // dd($session);
+    // public function success(Request $request)
+    // {
+    //     \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    //     $sessionId = $request->get('session_id');
+    //     $session = \Stripe\Checkout\Session::retrieve($sessionId);
+    //     // dd($session);
 
-        if(!$session){
-            abort(404);
-        }
-        $order = Order::where(['session_id'=>$session->id,'status'=>'pending'])->first();
-        // dd($order);
+    //     if(!$session){
+    //         abort(404);
+    //     }
+    //     $order = Order::where(['session_id'=>$session->id,'status'=>'pending'])->first();
+    //     // dd($order);
 
-        if(!$order){
-            abort(404);
-        }
-        $order->status = 'paid';
-        dd($order);
+    //     if(!$order){
+    //         abort(404);
+    //     }
+    //     $order->status = 'paid';
+    //     dd($order);
 
-        // $customer = \Stripe\Customer::retrieve($session->id);
-        // dd($customer);
-        return view('success',['customer'=>$session->customer_details]);
-    }
+    //     // $customer = \Stripe\Customer::retrieve($session->id);
+    //     // dd($customer);
+    //     return view('success',['customer'=>$session->customer_details]);
+    // }
 
 }

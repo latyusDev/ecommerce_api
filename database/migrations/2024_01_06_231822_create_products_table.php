@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained()
                                             ->onDelete('cascade');
             $table->string('name');
-            $table->decimal('price');
+            $table->decimal('price',15);
             $table->integer('quantity');
             $table->integer('count')->default(0);
             $table->string('description');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StorecategoryRequest;
 use App\Http\Requests\UpdatecategoryRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -39,11 +40,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = category::create([
-             'name'=>$request->name,
-             'user_id'=>$request->user_id
-         ]);
-        
+        $category = Category::create($request->all());
         return response(['category'=>$category],201);
         //
     }
@@ -51,24 +48,26 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+        return $category;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
-    }
+         $category->update($request->all());
+         return response(['message'=>'category is updated successfully'],201);
+        }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response(['message'=>'category is deleted successfully'],201);
     }
 }

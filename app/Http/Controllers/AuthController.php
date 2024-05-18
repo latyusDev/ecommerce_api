@@ -33,11 +33,11 @@ class AuthController extends Controller
     {
         $userDetail = $request->only(['email','password']);
         $user = User::with('address')->whereEmail($userDetail['email'])->first();
-        if(!$user || Hash::check($user->password,$userDetail['password']))
+        if(!$user||!Hash::check($userDetail['password'],$user->password))
         {
             return response([
                 'message'=>'User credentials not found'
-            ]);
+            ],404);
         };
         $token = $user->createToken('latyus')->plainTextToken;
         return response([

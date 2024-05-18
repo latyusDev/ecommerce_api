@@ -36,7 +36,8 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $brand =  Brand::find($id);
+        return $brand;
     }
 
     /**
@@ -44,7 +45,9 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $brand =  Brand::find($id);
+        $newBrand = $brand->update($request->all());
+        return $newBrand;
     }
 
     /**
@@ -52,6 +55,9 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $brand =  Brand::find($id);
+        $brand->delete();
+        return ['message'=>'brand deleted'];
+
     }
 }
